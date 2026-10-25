@@ -108,7 +108,7 @@ const products = [
         size: 'Incluye tarjeta con mensaje personalizado',
         price: 38500,
         badge: 'Para regalar',
-        image: 'https://images.unsplash.com/photo-1513201099705-a9746e1e201f?auto=format&fit=crop&w=900&q=85',
+        image: '../imgs/img1.jpeg',
         alt: 'Regalo artesanal envuelto con cuidado'
     }
 ];

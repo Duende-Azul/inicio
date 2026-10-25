@@ -120,7 +120,7 @@ button {
 }
 
 .brand-img{
-    width: 80px;
+    width: 60px;
 }
 
 .main-nav {
@@ -1237,6 +1237,41 @@ h2 {
     visibility: visible;
     pointer-events: auto;
     transform: translateY(0);
+}
+
+.instagram-float {
+    position: fixed;
+    z-index: 1000;
+    left: 1rem;
+    bottom: 1rem;
+    width: 3.25rem;
+    height: 3.25rem;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: #fff8ed;
+    color: #222;
+    box-shadow: 0 0.35rem 1.25rem rgba(0, 0, 0, .18);
+}
+
+.instagram-float:focus-visible {
+    outline: 3px solid var(--sage-dark);
+    outline-offset: 3px;
+}
+
+.instagram-icon {
+    width: 24px;
+    height: 24px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.instagram-icon circle:last-child {
+    fill: currentColor;
+    stroke: none;
 }
 
 @media (max-width: 900px) {
