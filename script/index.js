@@ -119,6 +119,7 @@ const currency = new Intl.NumberFormat('es-AR', {
     maximumFractionDigits: 0
 });
 
+const productsById = new Map(products.map((product) => [product.id, product]));
 const productGrid = document.querySelector('#product-grid');
 const categoryFilters = document.querySelector('#category-filters');
 const searchInput = document.querySelector('#product-search');
@@ -137,29 +138,6 @@ let activeProduct = null;
 let modalQuantity = 1;
 let previousFocus = null;
 let toastTimer;
-
-const menuToggle = document.querySelector('.menu-toggle');
-const mainNav = document.querySelector('#main-nav');
-
-function setMenuOpen(isOpen) {
-    menuToggle.setAttribute('aria-expanded', String(isOpen));
-    menuToggle.setAttribute('aria-label', isOpen ? 'Cerrar menú' : 'Abrir menú');
-    mainNav.classList.toggle('is-open', isOpen);
-}
-
-menuToggle.addEventListener('click', () => {
-    setMenuOpen(menuToggle.getAttribute('aria-expanded') !== 'true');
-});
-
-mainNav.addEventListener('click', (event) => {
-    if (event.target.closest('a')) setMenuOpen(false);
-});
-
-document.addEventListener('click', (event) => {
-    if (!event.target.closest('.site-header') && menuToggle.getAttribute('aria-expanded') === 'true') {
-        setMenuOpen(false);
-    }
-});
 
 function formatPrice(amount) {
     return currency.format(amount);
@@ -194,7 +172,7 @@ function renderProducts() {
 }
 
 function openProduct(productId, focusCloseButton = true) {
-    activeProduct = products.find((product) => product.id === productId);
+    activeProduct = productsById.get(productId);
     if (!activeProduct) return;
 
     modalQuantity = 1;
@@ -245,37 +223,46 @@ function changeCart(productId, amount) {
     renderCart();
 }
 
+function getCartSummary() {
+    let totalItems = 0;
+    let subtotal = 0;
+    const lines = [];
+
+    cart.forEach((quantity, productId) => {
+        const product = productsById.get(productId);
+        if (!product) return;
+
+        totalItems += quantity;
+        subtotal += product.price * quantity;
+        lines.push({ product, quantity });
+    });
+
+    return { lines, totalItems, subtotal };
+}
+
 function renderCart() {
-    const totalItems = [...cart.values()].reduce((sum, quantity) => sum + quantity, 0);
-    const subtotal = [...cart.entries()].reduce((sum, [productId, quantity]) => {
-        const product = products.find((item) => item.id === productId);
-        return sum + (product ? product.price * quantity : 0);
-    }, 0);
+    const { lines, totalItems, subtotal } = getCartSummary();
 
     document.querySelector('#cart-count').textContent = totalItems;
     document.querySelector('#drawer-count').textContent = `(${totalItems})`;
     cartEmpty.hidden = totalItems > 0;
     cartSummary.hidden = totalItems === 0;
-    cartItems.innerHTML = [...cart.entries()].map(([productId, quantity]) => {
-        const product = products.find((item) => item.id === productId);
-        if (!product) return '';
-        return `
-            <article class="cart-line">
-                <img src="${product.image}" alt="">
-                <div>
-                    <h3>${product.name}</h3>
-                    <p>${formatPrice(product.price)} c/u</p>
-                    <div class="cart-line-controls">
-                        <button type="button" data-cart-change="-1" data-product-id="${product.id}" aria-label="Quitar una unidad de ${product.name}">−</button>
-                        <span>${quantity}</span>
-                        <button type="button" data-cart-change="1" data-product-id="${product.id}" aria-label="Agregar una unidad de ${product.name}">+</button>
-                        <button class="cart-remove" type="button" data-cart-change="-${quantity}" data-product-id="${product.id}" aria-label="Eliminar ${product.name}">×</button>
-                    </div>
+    cartItems.innerHTML = lines.map(({ product, quantity }) => `
+        <article class="cart-line">
+            <img src="${product.image}" alt="">
+            <div>
+                <h3>${product.name}</h3>
+                <p>${formatPrice(product.price)} c/u</p>
+                <div class="cart-line-controls">
+                    <button type="button" data-cart-change="-1" data-product-id="${product.id}" aria-label="Quitar una unidad de ${product.name}">−</button>
+                    <span>${quantity}</span>
+                    <button type="button" data-cart-change="1" data-product-id="${product.id}" aria-label="Agregar una unidad de ${product.name}">+</button>
+                    <button class="cart-remove" type="button" data-cart-change="-${quantity}" data-product-id="${product.id}" aria-label="Eliminar ${product.name}">×</button>
                 </div>
-                <span class="cart-line-price">${formatPrice(product.price * quantity)}</span>
-            </article>
-        `;
-    }).join('');
+            </div>
+            <span class="cart-line-price">${formatPrice(product.price * quantity)}</span>
+        </article>
+    `).join('');
     document.querySelector('#cart-subtotal').textContent = formatPrice(subtotal);
 }
 
@@ -370,14 +357,10 @@ cartDrawer.addEventListener('click', (event) => {
 });
 
 document.querySelector('#checkout-button').addEventListener('click', () => {
-    const orderLines = [...cart.entries()].map(([productId, quantity]) => {
-        const product = products.find((item) => item.id === productId);
-        return product ? `- ${product.name} x ${quantity}: ${formatPrice(product.price * quantity)}` : '';
-    }).filter(Boolean);
-    const subtotal = [...cart.entries()].reduce((sum, [productId, quantity]) => {
-        const product = products.find((item) => item.id === productId);
-        return sum + (product ? product.price * quantity : 0);
-    }, 0);
+    const { lines, subtotal } = getCartSummary();
+    const orderLines = lines.map(({ product, quantity }) =>
+        `- ${product.name} x ${quantity}: ${formatPrice(product.price * quantity)}`
+    );
     const subject = encodeURIComponent('Consulta de pedido - Duende Azul');
     const body = encodeURIComponent(`¡Hola! Quiero consultar por este pedido:\n\n${orderLines.join('\n')}\n\nSubtotal: ${formatPrice(subtotal)}\n\n¿Me cuentan las opciones de envío y pago?`);
     window.location.href = `mailto:hola@duendeazul.com?subject=${subject}&body=${body}`;
@@ -385,21 +368,9 @@ document.querySelector('#checkout-button').addEventListener('click', () => {
 
 document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') {
-        if (menuToggle.getAttribute('aria-expanded') === 'true') {
-            setMenuOpen(false);
-            menuToggle.focus();
-        }
         if (productModal.classList.contains('is-open')) closeProduct();
         if (cartDrawer.classList.contains('is-open')) closeCart();
     }
-});
-
-const backToTop = document.querySelector('#back-to-top');
-window.addEventListener('scroll', () => {
-    backToTop.classList.toggle('is-visible', window.scrollY > 420);
-}, { passive: true });
-backToTop.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
 });
 
 const heroSlides = [...document.querySelectorAll('.hero-slide')];
@@ -509,6 +480,5 @@ if (heroSlides.length > 1 && heroImage) {
     resetAutoAdvance();
 }
 
-document.querySelector('#current-year').textContent = new Date().getFullYear();
 renderProducts();
 renderCart();

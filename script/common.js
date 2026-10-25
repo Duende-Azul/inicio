@@ -29,9 +29,11 @@ document.addEventListener('keydown', (event) => {
 });
 
 const backToTop = document.querySelector('#back-to-top');
+
 window.addEventListener('scroll', () => {
     backToTop.classList.toggle('is-visible', window.scrollY > 420);
 }, { passive: true });
+
 backToTop.addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 });
