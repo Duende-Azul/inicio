@@ -402,6 +402,120 @@ backToTop.addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 });
 
+const heroSlides = [...document.querySelectorAll('.hero-slide')];
+const heroImage = document.querySelector('.hero-image');
+if (heroSlides.length > 1 && heroImage) {
+    const heroDots = [...heroImage.querySelectorAll('[data-hero-slide]')];
+    let activeSlideIndex = heroSlides.findIndex((slide) => slide.classList.contains('is-active'));
+    let isTransitioning = false;
+    let autoAdvanceTimer;
+    let controlsTimer;
+
+    if (activeSlideIndex < 0) activeSlideIndex = 0;
+
+    function updateHeroDots() {
+        heroDots.forEach((dot, index) => {
+            const isActive = index === activeSlideIndex;
+            dot.classList.toggle('is-active', isActive);
+            dot.setAttribute('aria-pressed', String(isActive));
+        });
+    }
+
+    function showHeroControls() {
+        const heroArt = heroImage.closest('.hero-art');
+        if (!heroArt) return;
+
+        heroArt.classList.add('controls-visible');
+        window.clearTimeout(controlsTimer);
+        controlsTimer = window.setTimeout(() => {
+            heroArt.classList.remove('controls-visible');
+        }, 2000);
+    }
+
+    const heroArt = heroImage.closest('.hero-art');
+    heroArt?.addEventListener('pointerleave', () => {
+        window.clearTimeout(controlsTimer);
+        heroArt.classList.remove('controls-visible');
+    });
+
+    function showHeroSlide(nextIndex, direction = 'forward') {
+        if (isTransitioning || nextIndex === activeSlideIndex) return;
+
+        const currentSlide = heroSlides[activeSlideIndex];
+        const nextSlide = heroSlides[nextIndex];
+        isTransitioning = true;
+
+        if (direction === 'backward') {
+            heroImage.classList.add('is-backward-transition');
+            nextSlide.classList.add('is-entering-from-left');
+            window.requestAnimationFrame(() => {
+                window.requestAnimationFrame(() => {
+                    nextSlide.classList.remove('is-hidden');
+                    nextSlide.classList.remove('is-entering-from-left');
+                    nextSlide.classList.add('is-active');
+                    currentSlide.classList.remove('is-active');
+                    currentSlide.classList.add('is-exiting');
+                    activeSlideIndex = nextIndex;
+                    updateHeroDots();
+                    finishHeroTransition(currentSlide);
+                });
+            });
+            return;
+        }
+
+        nextSlide.classList.remove('is-hidden');
+        nextSlide.classList.add('is-active');
+        currentSlide.classList.remove('is-active');
+        currentSlide.classList.add('is-exiting');
+        activeSlideIndex = nextIndex;
+        updateHeroDots();
+
+        finishHeroTransition(currentSlide);
+    }
+
+    function finishHeroTransition(currentSlide) {
+        window.setTimeout(() => {
+            currentSlide.classList.remove('is-exiting');
+            currentSlide.classList.add('is-hidden');
+            heroImage.classList.remove('is-backward-transition');
+            isTransitioning = false;
+        }, 700);
+    }
+
+    function resetAutoAdvance() {
+        window.clearInterval(autoAdvanceTimer);
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            autoAdvanceTimer = window.setInterval(() => {
+                showHeroSlide((activeSlideIndex + 1) % heroSlides.length);
+            }, 3000);
+        }
+    }
+
+    heroImage.addEventListener('click', (event) => {
+        const control = event.target.closest('[data-hero-prev], [data-hero-next], [data-hero-slide]');
+        if (!control) return;
+
+        let nextIndex;
+        let direction = 'forward';
+        if (control.hasAttribute('data-hero-slide')) {
+            nextIndex = Number(control.dataset.heroSlide);
+        } else {
+            const isPrevious = control.hasAttribute('data-hero-prev');
+            const step = isPrevious ? -1 : 1;
+            if (isPrevious) direction = 'backward';
+            nextIndex = (activeSlideIndex + step + heroSlides.length) % heroSlides.length;
+        }
+
+        if (!Number.isInteger(nextIndex) || nextIndex < 0 || nextIndex >= heroSlides.length) return;
+        showHeroSlide(nextIndex, direction);
+        showHeroControls();
+        resetAutoAdvance();
+    });
+
+    updateHeroDots();
+    resetAutoAdvance();
+}
+
 document.querySelector('#current-year').textContent = new Date().getFullYear();
 renderProducts();
 renderCart();
