@@ -414,6 +414,7 @@ if (heroSlides.length > 1 && heroImage) {
     if (activeSlideIndex < 0) activeSlideIndex = 0;
 
     function updateHeroDots() {
+        heroImage.style.setProperty('--active-dot-index', activeSlideIndex);
         heroDots.forEach((dot, index) => {
             const isActive = index === activeSlideIndex;
             dot.classList.toggle('is-active', isActive);
@@ -445,39 +446,31 @@ if (heroSlides.length > 1 && heroImage) {
         const nextSlide = heroSlides[nextIndex];
         isTransitioning = true;
 
-        if (direction === 'backward') {
-            heroImage.classList.add('is-backward-transition');
-            nextSlide.classList.add('is-entering-from-left');
+        heroImage.classList.add('is-reveal-transition', `is-reveal-${direction}`);
+        nextSlide.classList.add('is-reveal-incoming');
+        window.requestAnimationFrame(() => {
+            nextSlide.classList.remove('is-hidden');
             window.requestAnimationFrame(() => {
+                nextSlide.classList.add('is-active');
+                currentSlide.classList.remove('is-active');
+                currentSlide.classList.add('is-exiting');
+                activeSlideIndex = nextIndex;
+                updateHeroDots();
                 window.requestAnimationFrame(() => {
-                    nextSlide.classList.remove('is-hidden');
-                    nextSlide.classList.remove('is-entering-from-left');
-                    nextSlide.classList.add('is-active');
-                    currentSlide.classList.remove('is-active');
-                    currentSlide.classList.add('is-exiting');
-                    activeSlideIndex = nextIndex;
-                    updateHeroDots();
+                    heroImage.classList.add('is-moving');
                     finishHeroTransition(currentSlide);
                 });
             });
-            return;
-        }
-
-        nextSlide.classList.remove('is-hidden');
-        nextSlide.classList.add('is-active');
-        currentSlide.classList.remove('is-active');
-        currentSlide.classList.add('is-exiting');
-        activeSlideIndex = nextIndex;
-        updateHeroDots();
-
-        finishHeroTransition(currentSlide);
+        });
     }
 
     function finishHeroTransition(currentSlide) {
         window.setTimeout(() => {
             currentSlide.classList.remove('is-exiting');
             currentSlide.classList.add('is-hidden');
-            heroImage.classList.remove('is-backward-transition');
+            heroSlides.forEach((slide) => slide.classList.remove('is-reveal-incoming'));
+            heroImage.classList.remove('is-moving');
+            heroImage.classList.remove('is-reveal-transition', 'is-reveal-backward', 'is-reveal-forward');
             isTransitioning = false;
         }, 700);
     }
