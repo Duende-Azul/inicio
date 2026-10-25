@@ -363,7 +363,7 @@ document.querySelector('#checkout-button').addEventListener('click', () => {
     );
     const subject = encodeURIComponent('Consulta de pedido - Duende Azul');
     const body = encodeURIComponent(`¡Hola! Quiero consultar por este pedido:\n\n${orderLines.join('\n')}\n\nSubtotal: ${formatPrice(subtotal)}\n\n¿Me cuentan las opciones de envío y pago?`);
-    window.location.href = `mailto:hola@duendeazul.com?subject=${subject}&body=${body}`;
+    window.location.href = `https://wa.me/+541127112198?text=${body}`;
 });
 
 document.addEventListener('keydown', (event) => {

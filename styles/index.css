@@ -24,8 +24,8 @@ html {
 
 body {
     margin: 0;
-    background-color: #fff8ed;
-    background-image: radial-gradient(ellipse at 12% 10%, rgba(255, 255, 255, .95), transparent 34%), radial-gradient(ellipse at 88% 21%, rgba(247, 171, 134, .22), transparent 33%), radial-gradient(ellipse at 18% 68%, rgba(206, 229, 123, .24), transparent 31%), radial-gradient(ellipse at 83% 78%, rgba(131, 207, 202, .2), transparent 34%), linear-gradient(135deg, #fff8ed, #fffdf6 48%, #f4f6dd);
+    background-color: #8bf3f8;
+    background-image: linear-gradient(90deg, #8bf3f8 0%, #f0b8eb 100%);
     background-attachment: fixed;
     color: var(--ink);
     font-family: var(--sans);
