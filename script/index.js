@@ -48,31 +48,28 @@ const products = [
         alt: 'Vasos lisos de colores con sorbete'
     },
     {
-        id: 'difusor-brisa',
-        name: 'Difusor Brisa',
-        category: '',
-        description: 'Aroma cítrico · 100 ml',
-        details: 'Un aroma fresco y delicado para darle otra energía a tus espacios. Incluye varillas de ratán y una mezcla cítrica preparada en nuestro taller.',
-        materials: 'Esencias aromáticas y varillas de ratán',
-        size: '100 ml · duración aproximada: 6 semanas',
-        price: '$ 19500',
-        badge: '',
-        image: 'https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format&fit=crop&w=900&q=85',
-        alt: 'Difusor aromático para el hogar'
+        id: 'comunion',
+        name: 'Tajeta de comunión',
+        category: 'sourvenir',
+        description: 'Diseño delicado · papel de calidad',
+        details: 'Una tarjeta delicada y elegante para regalar en comuniones, bautismos o confirmaciones. Se puede personalizar con el nombre del niño o niña y la fecha del evento.',
+        materials: 'Papel de alta calidad',
+        size: '13cm x 8cm',
+        price: '$ 45000 x 40u',
+        image: './imgs/comunion.jpeg',
+        alt: 'Tarjetas de comunión con diseño delicado'
     },
     {
-        id: 'florero-aurora',
-        name: 'Florero Aurora',
-        category: 'hogar',
-        categoryLabel: 'Hogar',
-        description: 'Cerámica artesanal · esmaltado',
-        details: 'Una forma sencilla de celebrar las flores de estación. Su acabado artesanal combina con flores frescas, ramas secas o con nada: también queda precioso así.',
-        materials: 'Cerámica esmaltada',
-        size: '18 cm de alto · cada pieza es distinta',
-        price: '$ 28500',
-        badge: 'Hecho a mano',
-        image: 'https://images.unsplash.com/photo-1578500494198-246f612d3b3d?auto=format&fit=crop&w=900&q=85',
-        alt: 'Florero de cerámica decorado con flores'
+        id: 'lata-grande',
+        name: 'Lata Central',
+        category: 'sourvenir',
+        description: 'Hojalata · tapa removible',
+        details: 'Perfecta para sourvenir, regalo o detalle especial. Se pueden usar para guardar caramelos, bombones o como decoración.',
+        materials: 'Hojalata',
+        size: '16cm x 8cm',
+        price: '$ 4500',
+        image: './imgs/latas_grandes.jpeg',
+        alt: 'Latas grandes de hojalata'
     },
     {
         id: 'vaso-transparente',
@@ -94,10 +91,34 @@ const products = [
         details: 'Un surtido de chocolatines con envoltorio personalizado, ideal para regalar en cumpleaños, bautismos, comuniones o cualquier ocasión especial. Se preparan con mucho cariño y atención al detalle.',
         materials: 'Chocolate de primera calidad y envoltorios personalizados',
         size: '8g c/u',
-        price: '$ 60000',
+        price: '$ 60000 x 40u',
         badge: 'Para regalar',
         image: './imgs/img1.jpeg',
         alt: 'Regalo artesanal envuelto con cuidado'
+    },
+    {
+        id: 'personales',
+        name: 'Tarjetas personales',
+        category: 'papeleria',
+        description: 'Diseño delicado · papel de calidad',
+        details: 'Tarjetas de presentacion profesionesles e impactantes, diseñadas a medida para potenciar la identidad de tu marca, negocio o emprendimiento.',
+        materials: 'Papel de alta calidad',
+        size: '5cm x 9cm',
+        price: '$ 25000 x 100u',
+        image: './imgs/personales.jpeg',
+        alt: 'Tarjetas personales con diseño delicado'
+    },
+    {
+        id: 'diplomas',
+        name: 'Diplomas',
+        category: 'papeleria',
+        description: 'Diseño elegante · papel de calidad',
+        details: 'Nuestros diplomas personalizados combinan un diseño elegante, profesional y de alta calidad, ideal para jerarquizar tus cursos, talleres, egresos o eventos.',
+        materials: 'Papel de alta calidad',
+        size: '21cm x 29.7cm (A4)',
+        price: '$ 33000 x 20u',
+        image: './imgs/diplomas.jpeg',
+        alt: 'Diplomas con diseño elegante y profesional'
     }
 ];
 
