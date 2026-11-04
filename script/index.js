@@ -10,7 +10,7 @@ const products = [
         size: 'Tamaño mediano · asa superior',
         price: 18500,
         badge: 'Color favorito',
-        image: '../imgs/valijas.jpeg',
+        image: './imgs/valijas.jpeg',
         alt: 'Valijas coloridas de plástico'
     },
     {
@@ -24,7 +24,7 @@ const products = [
         size: 'Capacidad mediana · tapa removible',
         price: 24000,
         badge: 'Más elegida',
-        image: '../imgs/latas_medias.jpeg',
+        image: './imgs/latas_medias.jpeg',
         alt: 'Latas medianas de acero inoxidable'
     },
     {
@@ -38,7 +38,7 @@ const products = [
         size: 'Capacidad chica · tapa removible',
         price: 21000,
         badge: 'Práctica',
-        image: '../imgs/latas_chicas.jpeg',
+        image: './imgs/latas_chicas.jpeg',
         alt: 'Latas chicas de acero inoxidable'
     },
     {
@@ -52,7 +52,7 @@ const products = [
         size: 'Capacidad aproximada: 500 ml',
         price: 32000,
         badge: 'Nuevo',
-        image: '../imgs/vasos_lisos.jpeg',
+        image: './imgs/vasos_lisos.jpeg',
         alt: 'Vasos lisos de colores con sorbete'
     },
     {
@@ -94,7 +94,7 @@ const products = [
         size: 'Capacidad aproximada: 500 ml',
         price: 14500,
         badge: 'Favorito',
-        image: '../imgs/vasos_trans.jpeg',
+        image: './imgs/vasos_trans.jpeg',
         alt: 'Vasos transparentes con sorbetes de colores'
     },
     {
@@ -108,7 +108,7 @@ const products = [
         size: 'Incluye tarjeta con mensaje personalizado',
         price: 38500,
         badge: 'Para regalar',
-        image: '../imgs/img1.jpeg',
+        image: './imgs/img1.jpeg',
         alt: 'Regalo artesanal envuelto con cuidado'
     }
 ];
