@@ -7,7 +7,10 @@ const products = [
         details: 'Una vlijita practica y colorida disponible en colores fuertes, pasteles y trasparentes. Ideales para usasr como sourvenirs.',
         materials: 'Plastico rigido y resistente',
         size: '14cm x 10cm x 4cm',
-        price: '$ 1800',
+        price: 18000,
+        // TODO: reemplazar por el precio real de la valija personalizada.
+        customPrice: 18000,
+        units: 10,
         image: './imgs/valijas.jpeg',
         alt: 'Valijas coloridas de plástico'
     },
@@ -19,7 +22,10 @@ const products = [
         details: 'Perfecta para sourvenir, regalo o detalle especial. Se pueden usar para guardar caramelos, bombones o como decoración.',
         materials: 'Hojalata',
         size: '8cm x 8cm',
-        price: '$ 1400',
+        price: 14000,
+        // TODO: reemplazar por el precio real de la lata mediana personalizada.
+        customPrice: 14000,
+        units: 10,
         image: './imgs/latas_medias.jpeg',
         alt: 'Latas medianas de hojalata'
     },
@@ -31,7 +37,10 @@ const products = [
         details: 'Este practico diseño lo podes utilizar como sourvenir para bautismos, comuniones, confirmacones y mucho más.',
         materials: 'Hojalata',
         size: '7.5cm x 2.5cm',
-        price: '$ 1000',
+        price: 10000,
+        // TODO: reemplazar por el precio real de la lata chica personalizada.
+        customPrice: 10000,
+        units: 10,
         image: './imgs/latas_chicas.jpeg',
         alt: 'Latas chicas de hojalata'
     },
@@ -43,7 +52,10 @@ const products = [
         details: 'Un vaso alegre y liviano para acompañar tus bebidas favoritas. Su tapa con sorbete lo vuelve práctico para usar en casa, llevar de paseo o sumar color a una merienda.',
         materials: 'Plástico reutilizable',
         size: 'Capacidad aproximada: 300 ml',
-        price: '$ 1000',
+        price: 10000,
+        // TODO: reemplazar por el precio real del vaso Milkshake personalizado.
+        customPrice: 10000,
+        units: 10,
         image: './imgs/vasos_lisos.jpeg',
         alt: 'Vasos lisos de colores con sorbete'
     },
@@ -55,7 +67,8 @@ const products = [
         details: 'Una tarjeta delicada y elegante para regalar en comuniones, bautismos o confirmaciones. Se puede personalizar con el nombre del niño o niña y la fecha del evento.',
         materials: 'Papel de alta calidad',
         size: '13cm x 8cm',
-        price: '$ 45000 x 40u',
+        price: 45000,
+        units: 40,
         image: './imgs/comunion.jpeg',
         alt: 'Tarjetas de comunión con diseño delicado'
     },
@@ -67,7 +80,10 @@ const products = [
         details: 'Perfecta para sourvenir, regalo o detalle especial. Se pueden usar para guardar caramelos, bombones o como decoración.',
         materials: 'Hojalata',
         size: '16cm x 8cm',
-        price: '$ 4500',
+        price: 4500,
+        // TODO: reemplazar por el precio real de la lata grande personalizada.
+        customPrice: 4500,
+        units: 1,
         image: './imgs/latas_grandes.jpeg',
         alt: 'Latas grandes de hojalata'
     },
@@ -79,7 +95,10 @@ const products = [
         details: 'Un vaso transparente con detalles brillantes y sorbete a tono, pensado para disfrutar tus bebidas con un toque divertido. Es cómodo, liviano y fácil de llevar.',
         materials: 'Plástico transparente reutilizable',
         size: 'Capacidad aproximada: 330 ml',
-        price: '$ 1400',
+        price: 14000,
+        // TODO: reemplazar por el precio real del vaso con glitter personalizado.
+        customPrice: 14000,
+        units: 10,
         image: './imgs/vasos_trans.jpeg',
         alt: 'Vasos transparentes con sorbetes de colores'
     },
@@ -91,7 +110,8 @@ const products = [
         details: 'Un surtido de chocolatines con envoltorio personalizado, ideal para regalar en cumpleaños, bautismos, comuniones o cualquier ocasión especial. Se preparan con mucho cariño y atención al detalle.',
         materials: 'Chocolate de primera calidad y envoltorios personalizados',
         size: '8g c/u',
-        price: '$ 60000 x 40u',
+        price: 60000,
+        units: 40,
         badge: 'Para regalar',
         image: './imgs/img1.jpeg',
         alt: 'Regalo artesanal envuelto con cuidado'
@@ -104,7 +124,8 @@ const products = [
         details: 'Tarjetas de presentacion profesionesles e impactantes, diseñadas a medida para potenciar la identidad de tu marca, negocio o emprendimiento.',
         materials: 'Papel de alta calidad',
         size: '5cm x 9cm',
-        price: '$ 25000 x 100u',
+        price: 25000,
+        units: 100,
         image: './imgs/personales.jpeg',
         alt: 'Tarjetas personales con diseño delicado'
     },
@@ -116,7 +137,8 @@ const products = [
         details: 'Nuestros diplomas personalizados combinan un diseño elegante, profesional y de alta calidad, ideal para jerarquizar tus cursos, talleres, egresos o eventos.',
         materials: 'Papel de alta calidad',
         size: '21cm x 29.7cm (A4)',
-        price: '$ 33000 x 20u',
+        price: 33000,
+        units: 20,
         image: './imgs/diplomas.jpeg',
         alt: 'Diplomas con diseño elegante y profesional'
     }
@@ -144,12 +166,36 @@ const cart = new Map();
 
 let selectedCategory = 'todos';
 let activeProduct = null;
-let modalQuantity = 1;
+let activeVariant = 'normal';
 let previousFocus = null;
 let toastTimer;
 
 function formatPrice(amount) {
     return currency.format(amount);
+}
+
+function formatProductPrice(product) {
+    return `${formatPrice(product.price)}${product.units > 1 ? ` x ${product.units}u` : ''}`;
+}
+
+function getVariantProduct(product, variant) {
+    return {
+        ...product,
+        variant,
+        variantLabel: variant === 'personalizado' ? 'Personalizado' : 'Normal',
+        price: variant === 'personalizado' ? product.customPrice : product.price
+    };
+}
+
+function renderModalProduct() {
+    const product = getVariantProduct(productsById.get(activeProduct.id), activeVariant);
+    activeProduct = product;
+    modalContent.querySelector('.modal-price').textContent = formatProductPrice(product);
+    const variantLabel = modalContent.querySelector('.modal-variant-label');
+    if (variantLabel) variantLabel.textContent = product.variantLabel;
+    modalContent.querySelector('.modal-quantity').textContent = product.units > 1
+        ? `Presentación de ${product.units} unidades.`
+        : 'Se agrega una unidad.';
 }
 
 function renderProducts() {
@@ -166,14 +212,13 @@ function renderProducts() {
                 <img class="product-image" src="${product.image}" alt="${product.alt}" loading="lazy">
                 ${product.badge ? `<span class="product-badge">${product.badge}</span>` : ''}
                 <button class="view-product" type="button" data-open-product="${product.id}">Ver producto</button>
-                <button class="quick-add" type="button" data-add-product="${product.id}" aria-label="Agregar ${product.name} a la bolsa">+</button>
             </div>
             <div class="product-info">
                 <div>
                     <span class="product-name">${product.name}</span>
                     <p class="product-description">${product.description}</p>
                 </div>
-                <span class="product-price">${product.price}</span>
+                <span class="product-price">${formatProductPrice(product)}</span>
             </div>
         </article>
     `).join('');
@@ -181,28 +226,34 @@ function renderProducts() {
 }
 
 function openProduct(productId, focusCloseButton = true) {
-    activeProduct = productsById.get(productId);
-    if (!activeProduct) return;
+    const product = productsById.get(productId);
+    if (!product) return;
 
-    modalQuantity = 1;
+    activeProduct = getVariantProduct(product, 'normal');
+    activeVariant = 'normal';
     previousFocus = document.activeElement;
     modalContent.innerHTML = `
         <img class="modal-product-image" src="${activeProduct.image}" alt="${activeProduct.alt}">
         <div class="modal-product-copy">
             <h2 id="modal-title">${activeProduct.name}</h2>
-            <p class="modal-price">${activeProduct.price}</p>
+            <p class="modal-price">${formatProductPrice(activeProduct)}</p>
+            ${activeProduct.customPrice !== undefined ? `
+                <label class="variant-choice">
+                    <span>Elegí una opción</span>
+                    <select data-variant-select aria-label="Elegir tipo de ${activeProduct.name}">
+                        <option value="normal">Normal</option>
+                        <option value="personalizado">Personalizado</option>
+                    </select>
+                </label>
+            ` : ''}
             <p class="modal-description">${activeProduct.details}</p>
             <ul class="modal-details">
                 <li>${activeProduct.materials}</li>
                 <li>${activeProduct.size}</li>
                 <li>Preparado y embalado con mucho cariño para vos.</li>
             </ul>
+            <p class="modal-quantity">${activeProduct.units > 1 ? `Presentación de ${activeProduct.units} unidades.` : 'Se agrega una unidad.'}${activeProduct.customPrice !== undefined ? ' <span class="modal-variant-label">Normal</span>' : ''}</p>
             <div class="modal-actions">
-                <div class="quantity-control" aria-label="Cantidad">
-                    <button type="button" data-quantity-change="-1" aria-label="Quitar una unidad">−</button>
-                    <span id="modal-quantity" aria-live="polite">1</span>
-                    <button type="button" data-quantity-change="1" aria-label="Agregar una unidad">+</button>
-                </div>
                 <button class="button button-dark" type="button" data-modal-add>Agregar a mi bolsa <span aria-hidden="true">↗</span></button>
             </div>
             <p class="modal-added" id="modal-added" role="status"></p>
@@ -223,11 +274,12 @@ function closeProduct() {
     if (previousFocus instanceof HTMLElement) previousFocus.focus();
 }
 
-function changeCart(productId, amount) {
-    const currentQuantity = cart.get(productId) || 0;
+function changeCart(productId, variant, amount) {
+    const cartKey = `${productId}:${variant}`;
+    const currentQuantity = cart.get(cartKey) || 0;
     const nextQuantity = currentQuantity + amount;
-    if (nextQuantity <= 0) cart.delete(productId);
-    else cart.set(productId, nextQuantity);
+    if (nextQuantity <= 0) cart.delete(cartKey);
+    else cart.set(cartKey, nextQuantity);
     renderCart();
 }
 
@@ -236,13 +288,15 @@ function getCartSummary() {
     let subtotal = 0;
     const lines = [];
 
-    cart.forEach((quantity, productId) => {
-        const product = productsById.get(productId);
+    cart.forEach((quantity, cartKey) => {
+        const [productId, variant] = cartKey.split(':');
+        const baseProduct = productsById.get(productId);
+        const product = baseProduct && getVariantProduct(baseProduct, variant);
         if (!product) return;
 
-        totalItems += quantity;
+        totalItems += product.units * quantity;
         subtotal += product.price * quantity;
-        lines.push({ product, quantity });
+        lines.push({ product, quantity, cartKey });
     });
 
     return { lines, totalItems, subtotal };
@@ -255,17 +309,18 @@ function renderCart() {
     document.querySelector('#drawer-count').textContent = `(${totalItems})`;
     cartEmpty.hidden = totalItems > 0;
     cartSummary.hidden = totalItems === 0;
-    cartItems.innerHTML = lines.map(({ product, quantity }) => `
+    cartItems.innerHTML = lines.map(({ product, quantity, cartKey }) => `
         <article class="cart-line">
             <img src="${product.image}" alt="">
             <div>
                 <h3>${product.name}</h3>
-                <p>${formatPrice(product.price)} c/u</p>
+                ${product.customPrice !== undefined ? `<p class="cart-variant">${product.variantLabel}</p>` : ''}
+                <p>${formatProductPrice(product)} por pack</p>
                 <div class="cart-line-controls">
-                    <button type="button" data-cart-change="-1" data-product-id="${product.id}" aria-label="Quitar una unidad de ${product.name}">−</button>
-                    <span>${quantity}</span>
-                    <button type="button" data-cart-change="1" data-product-id="${product.id}" aria-label="Agregar una unidad de ${product.name}">+</button>
-                    <button class="cart-remove" type="button" data-cart-change="-${quantity}" data-product-id="${product.id}" aria-label="Eliminar ${product.name}">×</button>
+                    <button type="button" data-cart-change="-1" data-cart-key="${cartKey}" aria-label="Quitar un pack de ${product.name} ${product.variantLabel}">−</button>
+                    <span>${quantity} ${quantity === 1 ? 'pack' : 'packs'}</span>
+                    <button type="button" data-cart-change="1" data-cart-key="${cartKey}" aria-label="Agregar un pack de ${product.name} ${product.variantLabel}">+</button>
+                    <button class="cart-remove" type="button" data-cart-change="-${quantity}" data-cart-key="${cartKey}" aria-label="Eliminar ${product.name} ${product.variantLabel}">×</button>
                 </div>
             </div>
             <span class="cart-line-price">${formatPrice(product.price * quantity)}</span>
@@ -310,13 +365,6 @@ categoryFilters.addEventListener('click', (event) => {
 searchInput.addEventListener('input', renderProducts);
 
 productGrid.addEventListener('click', (event) => {
-    const addButton = event.target.closest('[data-add-product]');
-    if (addButton) {
-        event.stopPropagation();
-        changeCart(addButton.dataset.addProduct, 1);
-        showToast('Agregamos una pieza a tu bolsa ✿');
-        return;
-    }
     const isFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
     const openButton = event.target.closest('[data-open-product]');
     if (openButton) {
@@ -339,16 +387,17 @@ productGrid.addEventListener('keydown', (event) => {
 });
 
 modalContent.addEventListener('click', (event) => {
-    const quantityButton = event.target.closest('[data-quantity-change]');
-    if (quantityButton) {
-        modalQuantity = Math.max(1, modalQuantity + Number(quantityButton.dataset.quantityChange));
-        document.querySelector('#modal-quantity').textContent = modalQuantity;
-        return;
-    }
     if (event.target.closest('[data-modal-add]') && activeProduct) {
-        changeCart(activeProduct.id, modalQuantity);
-        document.querySelector('#modal-added').textContent = `${modalQuantity} ${modalQuantity === 1 ? 'pieza agregada' : 'piezas agregadas'} a tu bolsa.`;
+        changeCart(activeProduct.id, activeProduct.variant, 1);
+        document.querySelector('#modal-added').textContent = `${activeProduct.units} ${activeProduct.units === 1 ? 'unidad agregada' : 'unidades agregadas'} a tu bolsa.`;
     }
+});
+
+modalContent.addEventListener('change', (event) => {
+    const variantSelect = event.target.closest('[data-variant-select]');
+    if (!variantSelect || !activeProduct) return;
+    activeVariant = variantSelect.value;
+    renderModalProduct();
 });
 
 productModal.addEventListener('click', (event) => {
@@ -362,13 +411,16 @@ cartDrawer.addEventListener('click', (event) => {
         return;
     }
     const changeButton = event.target.closest('[data-cart-change]');
-    if (changeButton) changeCart(changeButton.dataset.productId, Number(changeButton.dataset.cartChange));
+    if (changeButton) {
+        const [productId, variant] = changeButton.dataset.cartKey.split(':');
+        changeCart(productId, variant, Number(changeButton.dataset.cartChange));
+    }
 });
 
 document.querySelector('#checkout-button').addEventListener('click', () => {
     const { lines, subtotal } = getCartSummary();
     const orderLines = lines.map(({ product, quantity }) =>
-        `- ${product.name} x ${quantity}: ${formatPrice(product.price * quantity)}`
+        `- ${product.name} (${product.variantLabel}): ${quantity} ${quantity === 1 ? 'pack' : 'packs'} (${product.units * quantity} unidades) - ${formatPrice(product.price * quantity)}`
     );
     const subject = encodeURIComponent('Consulta de pedido - Duende Azul');
     const body = encodeURIComponent(`¡Hola! Quiero consultar por este pedido:\n\n${orderLines.join('\n')}\n\nSubtotal: ${formatPrice(subtotal)}\n\n¿Me cuentan las opciones de envío y pago?`);

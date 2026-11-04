@@ -762,29 +762,6 @@ h2 {
     text-transform: uppercase;
 }
 
-.quick-add {
-    position: absolute;
-    right: 10px;
-    bottom: 10px;
-    width: 36px;
-    height: 36px;
-    display: grid;
-    place-items: center;
-    border: 0;
-    border-radius: 50%;
-    background: #fffefa;
-    box-shadow: 0 4px 12px rgba(36, 59, 72, .15);
-    cursor: pointer;
-    font-size: 20px;
-    transition: .2s;
-}
-
-.quick-add:hover {
-    background: var(--ink);
-    color: white;
-    transform: rotate(90deg);
-}
-
 .product-info {
     display: flex;
     align-items: start;
@@ -964,6 +941,32 @@ h2 {
 .modal-price {
     margin: 0 0 21px;
     font-size: 15px;
+    font-weight: 600;
+}
+
+.variant-choice {
+    display: grid;
+    gap: 7px;
+    margin-bottom: 18px;
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.variant-choice select {
+    width: 100%;
+    min-height: 40px;
+    padding: 0 11px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: var(--white);
+    color: var(--ink);
+    cursor: pointer;
+    font-size: 11px;
+}
+
+.modal-variant-label {
+    color: var(--sage-dark);
     font-weight: 600;
 }
 
@@ -1506,13 +1509,6 @@ h2 {
         left: 7px;
         padding: 5px 6px;
         font-size: 7px;
-    }
-
-    .quick-add {
-        right: 7px;
-        bottom: 7px;
-        width: 32px;
-        height: 32px;
     }
 
     .site-footer {
