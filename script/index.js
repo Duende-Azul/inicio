@@ -317,15 +317,16 @@ productGrid.addEventListener('click', (event) => {
         showToast('Agregamos una pieza a tu bolsa ✿');
         return;
     }
+    const isFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
     const openButton = event.target.closest('[data-open-product]');
-    if (openButton && (openButton.classList.contains('view-product') || window.matchMedia('(hover: hover) and (pointer: fine)').matches)) {
+    if (openButton) {
         openProduct(openButton.dataset.openProduct);
+        return;
     }
-    else {
-        const image = event.target.closest('.product-image-wrap');
-        if (image && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-            openProduct(image.dataset.productId);
-        }
+    const card = event.target.closest('.product-card');
+    const image = card?.querySelector('.product-image-wrap');
+    if (image && (!isFinePointer || event.target.closest('.product-image-wrap'))) {
+        openProduct(image.dataset.productId);
     }
 });
 

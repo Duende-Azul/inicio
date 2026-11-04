@@ -1571,12 +1571,7 @@ h2 {
     }
 
     .view-product {
-        display: block;
-        left: 7px;
-        right: auto;
-        bottom: 7px;
-        min-height: 32px;
-        padding: 0 10px;
+        display: none;
     }
 }
 
