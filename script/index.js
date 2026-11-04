@@ -1,70 +1,61 @@
 const products = [
     {
         id: 'valija',
-        name: 'Valija Arcoíris',
-        category: 'accesorios',
-        categoryLabel: 'Accesorios',
-        description: 'Colores vibrantes · cierre seguro',
-        details: 'Una valija práctica y colorida para guardar todo lo que necesitas. Su formato rígido protege tus objetos y sus tonos alegres hacen que cada salida sea más especial.',
-        materials: 'Plástico rígido resistente',
-        size: 'Tamaño mediano · asa superior',
-        price: 18500,
-        badge: 'Color favorito',
+        name: 'Valija Golosinera',
+        category: 'sourvenir',
+        description: 'Colores vibrantes · plástico resistente',
+        details: 'Una vlijita practica y colorida disponible en colores fuertes, pasteles y trasparentes. Ideales para usasr como sourvenirs.',
+        materials: 'Plastico rigido y resistente',
+        size: '14cm x 10cm x 4cm',
+        price: '$ 1800',
         image: './imgs/valijas.jpeg',
         alt: 'Valijas coloridas de plástico'
     },
     {
         id: 'lata-mediana',
         name: 'Lata Mediana',
-        category: 'hogar',
-        categoryLabel: 'Hogar',
-        description: 'Acero inoxidable · tapa hermética',
-        details: 'Una lata versátil para mantener tus alimentos ordenados y protegidos. Su acabado brillante aporta un toque moderno a tu cocina y su tapa ayuda a conservar el contenido.',
-        materials: 'Acero inoxidable',
-        size: 'Capacidad mediana · tapa removible',
-        price: 24000,
-        badge: 'Más elegida',
+        category: 'sourvenir',
+        description: 'Hojalata · tapa removible',
+        details: 'Perfecta para sourvenir, regalo o detalle especial. Se pueden usar para guardar caramelos, bombones o como decoración.',
+        materials: 'Hojalata',
+        size: '8cm x 8cm',
+        price: '$ 1400',
         image: './imgs/latas_medias.jpeg',
-        alt: 'Latas medianas de acero inoxidable'
+        alt: 'Latas medianas de hojalata'
     },
     {
         id: 'lata-chica',
         name: 'Lata Chica',
-        category: 'hogar',
-        categoryLabel: 'Hogar',
-        description: 'Acero inoxidable · formato compacto',
-        details: 'Ideal para guardar pequeñas porciones, ingredientes o esos objetos que siempre quieres tener a mano. Su tamaño compacto se adapta fácilmente a cualquier estante o cajón.',
-        materials: 'Acero inoxidable',
-        size: 'Capacidad chica · tapa removible',
-        price: 21000,
-        badge: 'Práctica',
+        category: 'sourvenir',
+        description: 'Hojalata · formato compacto',
+        details: 'Este practico diseño lo podes utilizar como sourvenir para bautismos, comuniones, confirmacones y mucho más.',
+        materials: 'Hojalata',
+        size: '7.5cm x 2.5cm',
+        price: '$ 1000',
         image: './imgs/latas_chicas.jpeg',
-        alt: 'Latas chicas de acero inoxidable'
+        alt: 'Latas chicas de hojalata'
     },
     {
         id: 'vaso-liso',
-        name: 'Vaso Color',
-        category: 'accesorios',
-        categoryLabel: 'Accesorios',
+        name: 'Vaso Milkshake',
+        category: 'vasos',
         description: 'Colores pastel · sorbete incluido',
         details: 'Un vaso alegre y liviano para acompañar tus bebidas favoritas. Su tapa con sorbete lo vuelve práctico para usar en casa, llevar de paseo o sumar color a una merienda.',
         materials: 'Plástico reutilizable',
-        size: 'Capacidad aproximada: 500 ml',
-        price: 32000,
-        badge: 'Nuevo',
+        size: 'Capacidad aproximada: 300 ml',
+        price: '$ 1000',
         image: './imgs/vasos_lisos.jpeg',
         alt: 'Vasos lisos de colores con sorbete'
     },
     {
         id: 'difusor-brisa',
         name: 'Difusor Brisa',
-        category: 'bienestar',
-        categoryLabel: 'Bienestar',
+        category: '',
         description: 'Aroma cítrico · 100 ml',
         details: 'Un aroma fresco y delicado para darle otra energía a tus espacios. Incluye varillas de ratán y una mezcla cítrica preparada en nuestro taller.',
         materials: 'Esencias aromáticas y varillas de ratán',
         size: '100 ml · duración aproximada: 6 semanas',
-        price: 19500,
+        price: '$ 19500',
         badge: '',
         image: 'https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format&fit=crop&w=900&q=85',
         alt: 'Difusor aromático para el hogar'
@@ -78,35 +69,32 @@ const products = [
         details: 'Una forma sencilla de celebrar las flores de estación. Su acabado artesanal combina con flores frescas, ramas secas o con nada: también queda precioso así.',
         materials: 'Cerámica esmaltada',
         size: '18 cm de alto · cada pieza es distinta',
-        price: 28500,
+        price: '$ 28500',
         badge: 'Hecho a mano',
         image: 'https://images.unsplash.com/photo-1578500494198-246f612d3b3d?auto=format&fit=crop&w=900&q=85',
         alt: 'Florero de cerámica decorado con flores'
     },
     {
         id: 'vaso-transparente',
-        name: 'Vaso Transparente',
-        category: 'accesorios',
-        categoryLabel: 'Accesorios',
+        name: 'Vaso Milkshake con glitter',
+        category: 'vasos',
         description: 'Diseño transparente · sorbete incluido',
         details: 'Un vaso transparente con detalles brillantes y sorbete a tono, pensado para disfrutar tus bebidas con un toque divertido. Es cómodo, liviano y fácil de llevar.',
         materials: 'Plástico transparente reutilizable',
-        size: 'Capacidad aproximada: 500 ml',
-        price: 14500,
-        badge: 'Favorito',
+        size: 'Capacidad aproximada: 330 ml',
+        price: '$ 1400',
         image: './imgs/vasos_trans.jpeg',
         alt: 'Vasos transparentes con sorbetes de colores'
     },
     {
-        id: 'set-regalo',
-        name: 'Set Buen Día',
-        category: 'accesorios',
-        categoryLabel: 'Accesorios',
+        id: 'chocolatines',
+        name: 'Chocolatines personalizados ',
+        category: 'golosina',
         description: 'Una selección para regalar bonito',
-        details: 'Un regalo listo para sorprender: incluye una vela Calma y una taza Tierra, envueltas con materiales reutilizables y una tarjeta para tu mensaje.',
-        materials: 'Vela vegetal, taza de cerámica y envoltorio',
-        size: 'Incluye tarjeta con mensaje personalizado',
-        price: 38500,
+        details: 'Un surtido de chocolatines con envoltorio personalizado, ideal para regalar en cumpleaños, bautismos, comuniones o cualquier ocasión especial. Se preparan con mucho cariño y atención al detalle.',
+        materials: 'Chocolate de primera calidad y envoltorios personalizados',
+        size: '8g c/u',
+        price: '$ 60000',
         badge: 'Para regalar',
         image: './imgs/img1.jpeg',
         alt: 'Regalo artesanal envuelto con cuidado'
@@ -164,7 +152,7 @@ function renderProducts() {
                     <span class="product-name">${product.name}</span>
                     <p class="product-description">${product.description}</p>
                 </div>
-                <span class="product-price">${formatPrice(product.price)}</span>
+                <span class="product-price">${product.price}</span>
             </div>
         </article>
     `).join('');
@@ -180,14 +168,13 @@ function openProduct(productId, focusCloseButton = true) {
     modalContent.innerHTML = `
         <img class="modal-product-image" src="${activeProduct.image}" alt="${activeProduct.alt}">
         <div class="modal-product-copy">
-            <p class="eyebrow"><span class="eyebrow-line"></span> ${activeProduct.categoryLabel}${activeProduct.badge ? ` · ${activeProduct.badge}` : ''}</p>
             <h2 id="modal-title">${activeProduct.name}</h2>
-            <p class="modal-price">${formatPrice(activeProduct.price)}</p>
+            <p class="modal-price">${activeProduct.price}</p>
             <p class="modal-description">${activeProduct.details}</p>
             <ul class="modal-details">
                 <li>${activeProduct.materials}</li>
                 <li>${activeProduct.size}</li>
-                <li>Preparado y embalado con cariño en nuestro taller</li>
+                <li>Preparado y embalado con mucho cariño para vos.</li>
             </ul>
             <div class="modal-actions">
                 <div class="quantity-control" aria-label="Cantidad">
